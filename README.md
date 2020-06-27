@@ -195,8 +195,7 @@ It's up to you how you keep your schemas up to date to accurately reflect what's
 
 # Moving this to a real cluster
 
-On a real cluster, there's a number of changes you may do:
-
+On a real cluster, there's a number of changes you'll likely do:
 * Put your hive metastore on mysql or some other relational database so the cluster can share the same concept of tables
 * Use more powerful clusters that allow you to completely delegate the handling of running an app to worker rather than your machine delegating to cluster's workers.  Research `--deploy-mode cluster`.
 * [Setup security](https://spark.apache.org/docs/latest/security.html) for multiples machines and multiple user access to the cluster.
