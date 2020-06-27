@@ -104,3 +104,18 @@ spark.sql("create table events using delta location 's3a://<your bucket>/events'
 # execute some sql against it
 spark.sql("select * from events").show(100)
 ```
+
+# Jupyter Notebook
+
+Now let's get pyspark operational in a Jupyter notebook
+
+1. Make sure jupyter is installed with `pip install jupyter`
+2. Now we will tell pyspark to use jupyter as a front end
+```
+export PYSPARK_DRIVER_PYTHON=jupyter
+export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
+```
+3. Finally, let's run pyspark with Delta Lake
+```
+pyspark --packages io.delta:delta-core_2.12:0.7.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
+```
