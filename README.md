@@ -15,7 +15,7 @@ You'll need to first:
 1. [Download spark 3.0](https://spark.apache.org/downloads.html) and unzip it somewhere (e.g. `/home/richard/spark/`)
 2. `export SPARK_HOME=<put folder path path of where you unziped spark here (e.g. /home/richard/spark)>`
 3. Install pyspark for running our spark apps:
-```
+```bash
 pip install --upgrade pyspark
 ```
 
@@ -25,7 +25,7 @@ Easy! You are ready to go.
 
 Spark clusters have a primary server and several workers worker servers. Let's first create a primary server.
 
-```
+```bash
 sh ${SPARK_HOME}/sbin/start-master.sh -h localhost
 ```
 
@@ -33,7 +33,7 @@ You can see it running now at `http://http://localhost:8080/`
 
 Now let's create a worker also running on your local machine.
 
-```
+```bash
 sh ${SPARK_HOME}/sbin/start-slave.sh spark://localhost:7077
 ```
 
@@ -71,7 +71,7 @@ Parquet files are a very efficient form of storage for column oriented data oper
 
 All we have to do is run.
 
-```
+```bash
 python3 example.py
 ```
 
@@ -85,7 +85,7 @@ Let's try to run Delta Lake using S3 as the backing store for our parquet files 
 * we now configure those jars with our AWS creds
 * we're telling our metastore to pay attention to S3 instead of our local file system
 
-```PYTHON
+```python
 # This is an example pyspark app that does some simple
 # things with Delta lake
 from pyspark.sql import SparkSession
@@ -122,7 +122,7 @@ Now let's get pyspark operational in a Jupyter notebook
 
 1. Make sure jupyter is installed with `pip install jupyter`
 2. Now we will tell pyspark to use jupyter as a front end
-```
+```bash
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 ```
