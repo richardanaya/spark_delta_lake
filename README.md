@@ -146,3 +146,32 @@ Now create a notebook:
 spark.sql("CREATE TABLE IF NOT EXISTS events using delta location 's3a://<your bucket>/events'")
 spark.sql("select * from events").show(100)
 ```
+
+# Working with the hive metastore
+
+The hive metastore is used to describe the data within our parquet files using SQL concepts. By default, Spark uses a hive metastore on your local machine (you might notice this files `derby` created locally).
+
+Notice in our first line of our notebook
+
+```sql
+CREATE TABLE IF NOT EXISTS events using delta location 's3a://<your bucket>/events'
+```
+
+We are helping the hive metastore map the concept of a table `event` to our parquet file on S3
+
+You can delete this metadata with a 
+
+```sql
+DROP TABLE events
+```
+
+If you don't believe me, try it on some simple test data and then try remapping it with another `CREATE TABLE` ;) 
+
+It's up to you how you keep your schemas up to date to accurately reflect what's in the parquet files when using SQL.
+
+# Moving this to a real cluster
+
+On a real cluster, there's a number of changes you may do:
+
+* putting your hive metastore on mysql or some other relational database so the cluster can share the same concept of tables
+* more powerful clusters exist that allow you to completely delegate the handling of running an app to worker rather than your machine delegating to cluster's workers.  Research `--deploy-mode cluster`.
