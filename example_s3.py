@@ -16,8 +16,8 @@ spark = SparkSession.builder.appName("DeltaLakeExample")\
     .getOrCreate()
 
 # write some numbers 
-spark.range(10).write.format("delta").save("/tmp/events")
+spark.range(10).write.format("delta").save("s3a://<your-s3-bucket>/events")
 # use the disk location as a table
-spark.sql("create table events using delta location '/tmp/events'")
+spark.sql("create table events using delta location 's3a://<your-s3-bucket>/events'")
 # execute some sql against it
 spark.sql("select * from events").show(100)
