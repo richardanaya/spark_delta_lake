@@ -1,6 +1,12 @@
 # Let's Create a Spark Cluster with Delta Lake!
 
-This is a simple tutorial for setting up a spark cluster on your local machine to run spark apps that utilize Delta Lake.
+This is a simple tutorial for setting up a spark cluster on your local machine to run spark apps that utilize Delta Lake. Delta Lake is a technology that helps:
+
+* Make data transformations storage more resiliant
+* Enable time travel
+* Make storage more efficient using parquet files
+
+Being able to run on a cluster on your own machine is a stepping stone to running on a cluster in the cloud to ask big questions. Let's have fun!
 
 # Setup
 
@@ -9,7 +15,7 @@ You'll need to first:
 1. [Download spark 3.0](https://spark.apache.org/downloads.html) and unzip it somewhere (e.g. `/home/richard/spark/`)
 2. `export SPARK_HOME=<put folder path path of where you unziped spark here (e.g. /home/richard/spark)>`
 3. Install pyspark for running our spark apps:
-```
+```bash
 pip install --upgrade pyspark
 ```
 
@@ -19,7 +25,7 @@ Easy! You are ready to go.
 
 Spark clusters have a primary server and several workers worker servers. Let's first create a primary server.
 
-```
+```bash
 sh ${SPARK_HOME}/sbin/start-master.sh -h localhost
 ```
 
@@ -27,7 +33,7 @@ You can see it running now at `http://http://localhost:8080/`
 
 Now let's create a worker also running on your local machine.
 
-```
+```bash
 sh ${SPARK_HOME}/sbin/start-slave.sh spark://localhost:7077
 ```
 
@@ -65,7 +71,7 @@ Parquet files are a very efficient form of storage for column oriented data oper
 
 All we have to do is run.
 
-```
+```bash
 python3 example.py
 ```
 
@@ -79,7 +85,7 @@ Let's try to run Delta Lake using S3 as the backing store for our parquet files 
 * we now configure those jars with our AWS creds
 * we're telling our metastore to pay attention to S3 instead of our local file system
 
-```PYTHON
+```python
 # This is an example pyspark app that does some simple
 # things with Delta lake
 from pyspark.sql import SparkSession
@@ -116,33 +122,41 @@ Now let's get pyspark operational in a Jupyter notebook
 
 1. Make sure jupyter is installed with `pip install jupyter`
 2. Now we will tell pyspark to use jupyter as a front end
-```
+```bash
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 ```
-3. Finally, let's run pyspark with Delta Lake with all the packages we will use
-```
-pyspark --master spark://localhost:7077 --packages io.delta:delta-core_2.12:0.7.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
+3. Finally, let's run pyspark with Delta Lake with all the packages and configuration we will use
+```bash
+pyspark --master spark://localhost:7077 --packages io.delta:delta-core_2.12:0.7.0 \
+    --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
+    --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
 ```
 
-Notice all those params that used to be in are python are now give to pyspark directly. Now create a notebook, and our code is much simpler:
+Notice all those params that used to be in are python are now given to pyspark directly. Now create a notebook, and our code is much simpler:
 
-```
+```python
 spark.sql("CREATE TABLE IF NOT EXISTS events using delta location '/tmp/events'")
 spark.sql("select * from events").show(100)
 ```
 
 Now let's close our notebook and try running pyspark with the packages to talk to s3 as our file storage
 
-```
-pyspark --master spark://localhost:7077 --packages io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.4 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --conf "spark.delta.logStore.class=org.apache.spark.sql.delta.storage.S3SingleDriverLogStore" --conf "spark.hadoop.fs.s3a.access.key=<your key>" --conf "spark.hadoop.fs.s3a.secret.key=<your secret>"
+```bash
+pyspark --master spark://localhost:7077 \
+    --packages io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.4 \
+    --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
+    --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" \
+    --conf "spark.delta.logStore.class=org.apache.spark.sql.delta.storage.S3SingleDriverLogStore" \
+    --conf "spark.hadoop.fs.s3a.access.key=<your key>" \
+    --conf "spark.hadoop.fs.s3a.secret.key=<your secret>"
 ```
 
 Note, all we do is add some new packages and our s3 configuration from earlier.
 
 Now create a notebook:
 
-```
+```python
 spark.sql("CREATE TABLE IF NOT EXISTS events using delta location 's3a://<your bucket>/events'")
 spark.sql("select * from events").show(100)
 ```
