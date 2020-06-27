@@ -1,6 +1,12 @@
 # Let's Create a Spark Cluster with Delta Lake!
 
-This is a simple tutorial for setting up a spark cluster on your local machine to run spark apps that utilize Delta Lake. Being able to run on a cluster on your own machine is a stepping stone to running on a cluster in the cloud to ask big questions!
+This is a simple tutorial for setting up a spark cluster on your local machine to run spark apps that utilize Delta Lake. Delta Lake is a technology that helps:
+
+* Make data transformations storage more resiliant
+* Enable time travel
+* Make storage more efficient using parquet files
+
+Being able to run on a cluster on your own machine is a stepping stone to running on a cluster in the cloud to ask big questions. Let's have fun!
 
 # Setup
 
