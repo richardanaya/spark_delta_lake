@@ -183,6 +183,14 @@ DROP TABLE events
 
 If you don't believe me, try it on some simple test data and then try remapping it with another `CREATE TABLE` ;) 
 
+```python
+spark.sql("CREATE TABLE IF NOT EXISTS events using delta location '/tmp/events'")
+spark.sql("select * from events").show(100)
+spark.sql("DROP TABLE events")
+spark.sql("CREATE TABLE IF NOT EXISTS events using delta location '/tmp/events'")
+spark.sql("select * from events").show(1)
+```
+
 It's up to you how you keep your schemas up to date to accurately reflect what's in the parquet files when using SQL.
 
 # Moving this to a real cluster
