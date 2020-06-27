@@ -52,7 +52,7 @@ spark = SparkSession.builder.appName("DeltaLakeExample")\
     .getOrCreate()
 
 # write some numbers 
-#spark.range(10).write.format("delta").save("/tmp/events")
+spark.range(10).write.format("delta").save("/tmp/events")
 # use the disk location as a table
 spark.sql("create table events using delta location '/tmp/events'")
 # execute some sql against it

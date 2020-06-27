@@ -1,3 +1,4 @@
+import os
 # This is an example pyspark app that does some simple
 # things with Delta lake
 from pyspark.sql import SparkSession
@@ -9,6 +10,9 @@ spark = SparkSession.builder.appName("DeltaLakeExample")\
     .config("spark.jars.packages", "io.delta:delta-core_2.12:0.7.0") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
+    .config("spark.delta.logStore.class", "org.apache.spark.sql.delta.storage.S3SingleDriverLogStore") \
+    .config("spark.hadoop.fs.s3a.access.key", os.getenv('SPARK_S3_ACCESS_KEY')) \
+    .config("spark.hadoop.fs.s3a.secret.key", os.getenv('SPARK_S3_SECRET_KEY')) \
     .getOrCreate()
 
 # write some numbers 
