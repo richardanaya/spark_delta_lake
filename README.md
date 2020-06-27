@@ -31,6 +31,8 @@ Now let's create a worker also running on your local machine.
 sh ${SPARK_HOME}/sbin/start-slave.sh spark://localhost:7077
 ```
 
+You can see it running at http://localhost:8081/
+
 Now we can run python spark apps! A spark app is basically a small bit of code that knows how to delegate work out to our workers of our cluster.  `pyspark` is a tool that makes writing these spark apps easy. Let's look at a basic example that creates a table, then queries it with sql.
 
 ```python
