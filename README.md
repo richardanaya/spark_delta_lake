@@ -126,12 +126,12 @@ Now let's get pyspark operational in a Jupyter notebook
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 ```
-3. Finally, let's run pyspark with Delta Lake with all the packages we will use
+3. Finally, let's run pyspark with Delta Lake with all the packages and configuration we will use
 ```
 pyspark --master spark://localhost:7077 --packages io.delta:delta-core_2.12:0.7.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
 ```
 
-Notice all those params that used to be in are python are now give to pyspark directly. Now create a notebook, and our code is much simpler:
+Notice all those params that used to be in are python are now given to pyspark directly. Now create a notebook, and our code is much simpler:
 
 ```
 spark.sql("CREATE TABLE IF NOT EXISTS events using delta location '/tmp/events'")
