@@ -11,13 +11,13 @@ spark = SparkSession.builder.appName("DeltaLakeExample")\
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
     .config("spark.delta.logStore.class", "org.apache.spark.sql.delta.storage.S3SingleDriverLogStore") \
-    .config("spark.hadoop.fs.s3a.access.key", os.getenv('SPARK_S3_ACCESS_KEY')) \
-    .config("spark.hadoop.fs.s3a.secret.key", os.getenv('SPARK_S3_SECRET_KEY')) \
+    .config("spark.hadoop.fs.s3a.access.key","<your key>") \
+    .config("spark.hadoop.fs.s3a.secret.key","<your secret>") \
     .getOrCreate()
 
 # write some numbers 
-spark.range(10).write.format("delta").save("s3a://<your-s3-bucket>/events")
+spark.range(10).write.format("delta").save("s3a://<your bucket>/events")
 # use the disk location as a table
-spark.sql("create table events using delta location 's3a://<your-s3-bucket>/events'")
+spark.sql("create table events using delta location 's3a://<your bucket>/events'")
 # execute some sql against it
 spark.sql("select * from events").show(100)
