@@ -8,6 +8,8 @@ This is a simple tutorial for setting up a spark cluster on your local machine t
 
 Being able to run on a cluster on your own machine is a stepping stone to running on a cluster in the cloud to ask big questions. Let's have fun!
 
+Please remember Spark security is off by default if you start using any of this tutorial for production.
+
 # Setup
 
 You'll need to first:
