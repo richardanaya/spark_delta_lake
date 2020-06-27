@@ -1,11 +1,13 @@
-start:
+start_primary:
 	sh ${SPARK_HOME}/sbin/start-master.sh -h localhost
-stop:
+stop_primary:
 	sh ${SPARK_HOME}/sbin/stop-master.sh 
 start_worker:
 	sh ${SPARK_HOME}/sbin/start-slave.sh spark://localhost:7077
 stop_worker:
 	sh ${SPARK_HOME}/sbin/stop-slave.sh
+start: start_primary start_worker
+stop: stop_worker stop_primary
 example:
 	python3 example.py
 pyspark:
