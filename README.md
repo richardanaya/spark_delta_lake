@@ -61,6 +61,8 @@ spark.sql("select * from events").show(100)
 
 Delta Lake stores our table as a parquet file in our local system.
 
+Parquet files are a very efficient form of storage for column oriented data operations.
+
 # Running An App
 
 All we have to do is run.
