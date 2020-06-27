@@ -127,7 +127,7 @@ export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 ```
 3. Finally, let's run pyspark with Delta Lake with all the packages and configuration we will use
-```
+```bash
 pyspark --master spark://localhost:7077 --packages io.delta:delta-core_2.12:0.7.0 \
     --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
     --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
@@ -135,14 +135,14 @@ pyspark --master spark://localhost:7077 --packages io.delta:delta-core_2.12:0.7.
 
 Notice all those params that used to be in are python are now given to pyspark directly. Now create a notebook, and our code is much simpler:
 
-```
+```python
 spark.sql("CREATE TABLE IF NOT EXISTS events using delta location '/tmp/events'")
 spark.sql("select * from events").show(100)
 ```
 
 Now let's close our notebook and try running pyspark with the packages to talk to s3 as our file storage
 
-```
+```bash
 pyspark --master spark://localhost:7077 \
     --packages io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.4 \
     --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
@@ -156,7 +156,7 @@ Note, all we do is add some new packages and our s3 configuration from earlier.
 
 Now create a notebook:
 
-```
+```python
 spark.sql("CREATE TABLE IF NOT EXISTS events using delta location 's3a://<your bucket>/events'")
 spark.sql("select * from events").show(100)
 ```
