@@ -73,13 +73,15 @@ python3 example.py
 
 To run Delta Lake on S3, you'll need to make sure spark has the jars for talking with AWS
 
-1. Download jar at https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk/1.7.4 and put in %SPARK_HOME/jars/
-2. Download jar at https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-aws/2.7.4 and put in %SPARK_HOME/jars/
-3. Also you'll need to acquire some AWS IAM credentials that can access S3
+1. Make sure you've run the pyspark command to gather packages you'll need, this includes jars for talking to AWS
+```
+pyspark --packages io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.4
+```
+2. Make sure you have some AWS credentials by going to the IAM section of AWS Console, find your user name, create new keys.
 
 Our example ends up not being that different form the previous:
 
-```
+```PYTHON
 import os
 # This is an example pyspark app that does some simple
 # things with Delta lake
@@ -89,7 +91,7 @@ from pyspark.sql import SparkSession
 # let's target our cluster on our local machine
 spark = SparkSession.builder.appName("DeltaLakeExample")\
     .master("spark://localhost:7077") \
-    .config("spark.jars.packages", "io.delta:delta-core_2.12:0.7.0") \
+    .config("spark.jars.packages", "io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.4") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
     .config("spark.delta.logStore.class", "org.apache.spark.sql.delta.storage.S3SingleDriverLogStore") \
@@ -117,5 +119,5 @@ export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 ```
 3. Finally, let's run pyspark with Delta Lake
 ```
-pyspark --packages io.delta:delta-core_2.12:0.7.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
+pyspark
 ```

@@ -7,7 +7,7 @@ from pyspark.sql import SparkSession
 # let's target our cluster on our local machine
 spark = SparkSession.builder.appName("DeltaLakeExample")\
     .master("spark://localhost:7077") \
-    .config("spark.jars.packages", "io.delta:delta-core_2.12:0.7.0") \
+    .config("spark.jars.packages", "io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.4") \
     .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
     .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
     .config("spark.delta.logStore.class", "org.apache.spark.sql.delta.storage.S3SingleDriverLogStore") \
