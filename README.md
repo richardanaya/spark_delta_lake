@@ -1,6 +1,6 @@
 # Let's Create a Spark Cluster with Delta Lake!
 
-This is a simple tutorial for setting up a cluster on your local machine to run spark apps with.
+This is a simple tutorial for setting up a spark cluster on your local machine to run spark apps that utilize Delta Lake.
 
 # Setup
 
