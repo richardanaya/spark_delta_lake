@@ -52,7 +52,7 @@ spark = SparkSession.builder.appName("DeltaLakeExample")\
 # write some numbers 
 spark.range(10).write.format("delta").save("/tmp/events")
 # use the disk location as a table
-spark.sql("create table events using delta location '/tmp/events'")
+spark.sql("CREATE TABLE IF NOT EXISTS events using delta location '/tmp/events'")
 # execute some sql against it
 spark.sql("select * from events").show(100)
 ```
@@ -82,7 +82,6 @@ pyspark --packages io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7
 Our example ends up not being that different form the previous:
 
 ```PYTHON
-import os
 # This is an example pyspark app that does some simple
 # things with Delta lake
 from pyspark.sql import SparkSession
@@ -102,7 +101,7 @@ spark = SparkSession.builder.appName("DeltaLakeExample")\
 # write some numbers 
 spark.range(10).write.format("delta").save("s3a://<your bucket>/events")
 # use the disk location as a table
-spark.sql("create table events using delta location 's3a://<your bucket>/events'")
+spark.sql("CREATE TABLE IF NOT EXISTS events using delta location 's3a://<your bucket>/events'")
 # execute some sql against it
 spark.sql("select * from events").show(100)
 ```
@@ -119,5 +118,14 @@ export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 ```
 3. Finally, let's run pyspark with Delta Lake with all the packages we will use
 ```
-pyspark --packages io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.4
+pyspark --master spark://localhost:7077 --packages io.delta:delta-core_2.12:0.7.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
+```
+
+Notice all those params that used to be in are python are now give to pyspark directly. Now our notebook code is simpler:
+
+```
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName("DeltaLakeExample").getOrCreate()
+spark.sql("CREATE TABLE IF NOT EXISTS events using delta location '/tmp/events'")
+spark.sql("select * from events").show(100)
 ```
