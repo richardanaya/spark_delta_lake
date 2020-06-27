@@ -188,7 +188,7 @@ spark.sql("CREATE TABLE IF NOT EXISTS events using delta location '/tmp/events'"
 spark.sql("select * from events").show(100)
 spark.sql("DROP TABLE events")
 spark.sql("CREATE TABLE IF NOT EXISTS events using delta location '/tmp/events'")
-spark.sql("select * from events").show(1)
+spark.sql("select * from events").show(100)
 ```
 
 It's up to you how you keep your schemas up to date to accurately reflect what's in the parquet files when using SQL.
