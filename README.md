@@ -175,3 +175,4 @@ On a real cluster, there's a number of changes you may do:
 
 * putting your hive metastore on mysql or some other relational database so the cluster can share the same concept of tables
 * more powerful clusters exist that allow you to completely delegate the handling of running an app to worker rather than your machine delegating to cluster's workers.  Research `--deploy-mode cluster`.
+* setup security for user access to the cluster
