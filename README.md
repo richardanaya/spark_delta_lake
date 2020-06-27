@@ -106,6 +106,12 @@ spark.sql("CREATE TABLE IF NOT EXISTS events using delta location 's3a://<your b
 spark.sql("select * from events").show(100)
 ```
 
+Now all we need to do us run
+
+```
+python3 example_s3.py
+```
+
 # Jupyter Notebook
 
 Now let's get pyspark operational in a Jupyter notebook
@@ -129,3 +135,11 @@ spark = SparkSession.builder.appName("DeltaLakeExample").getOrCreate()
 spark.sql("CREATE TABLE IF NOT EXISTS events using delta location '/tmp/events'")
 spark.sql("select * from events").show(100)
 ```
+
+Now let's close our notebook and try running pyspark with the packages to talk to s3 as our file storage
+
+```
+pyspark --master spark://localhost:7077 --packages io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.4 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --conf "spark.delta.logStore.class=org.apache.spark.sql.delta.storage.S3SingleDriverLogStore" --conf "spark.hadoop.fs.s3a.access.key=<your key>" --conf "spark.hadoop.fs.s3a.secret.key=<your secret>"
+```
+
+Note, all we do is add some new packages and our s3 configuration from earlier.
