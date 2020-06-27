@@ -117,7 +117,7 @@ Now let's get pyspark operational in a Jupyter notebook
 export PYSPARK_DRIVER_PYTHON=jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS='notebook'
 ```
-3. Finally, let's run pyspark with Delta Lake
+3. Finally, let's run pyspark with Delta Lake with all the packages we will use
 ```
-pyspark
+pyspark --packages io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.4
 ```
