@@ -1,20 +1,16 @@
 # Let's Create a Spark Cluster with Delta Lake!
 
-This is a simple tutorial for setting up a cluster on your local machine to run spark apps with.
+This is a simple tutorial for setting up a spark cluster on your local machine to run spark apps that utilize Delta Lake.
 
 # Setup
 
 You'll need to first:
 
-1. [Download spark 3.0](https://spark.apache.org/downloads.html) and unzip it somewhere (I put it at '~/spark/`)
-2. `export SPARK_HOME=<put folder path path of where you unziped spark here>`
+1. [Download spark 3.0](https://spark.apache.org/downloads.html) and unzip it somewhere (e.g. `/home/richard/spark/`)
+2. `export SPARK_HOME=<put folder path path of where you unziped spark here (e.g. /home/richard/spark)>`
 3. Install pyspark for running our spark apps:
 ```
 pip install --upgrade pyspark
-```
-4. Install Delta Lake packages for pyspark
-```
-pyspark --packages io.delta:delta-core_2.12:0.7.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
 ```
 
 Easy! You are ready to go.
@@ -34,6 +30,8 @@ Now let's create a worker also running on your local machine.
 ```
 sh ${SPARK_HOME}/sbin/start-slave.sh spark://localhost:7077
 ```
+
+You can see it running at http://localhost:8081/
 
 Now we can run python spark apps! A spark app is basically a small bit of code that knows how to delegate work out to our workers of our cluster.  `pyspark` is a tool that makes writing these spark apps easy. Let's look at a basic example that creates a table, then queries it with sql.
 
@@ -60,6 +58,8 @@ spark.sql("select * from events").show(100)
 ```
 
 Delta Lake stores our table as a parquet file in our local system.
+
+Parquet files are a very efficient form of storage for column oriented data operations.
 
 # Running An App
 
