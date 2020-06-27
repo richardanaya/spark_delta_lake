@@ -1,4 +1,4 @@
-# Let's Create a Spark Cluster with Delta Lake!
+# Let's Create a Spark 3.0 Cluster with Delta Lake!
 
 This is a simple tutorial for setting up a spark cluster on your local machine to run spark apps that utilize Delta Lake. Delta Lake is a technology that helps:
 
