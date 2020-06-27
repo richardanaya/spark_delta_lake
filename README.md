@@ -6,7 +6,7 @@ This is a simple tutorial for setting up a spark cluster on your local machine t
 
 You'll need to first:
 
-1. [Download spark 3.0](https://spark.apache.org/downloads.html) and unzip it somewhere (I put it at '~/spark/`)
+1. [Download spark 3.0](https://spark.apache.org/downloads.html) and unzip it somewhere (e.g. '~/spark/`)
 2. `export SPARK_HOME=<put folder path path of where you unziped spark here (e.g. ~/spark)>`
 3. Install pyspark for running our spark apps:
 ```
