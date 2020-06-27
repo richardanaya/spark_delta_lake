@@ -71,15 +71,13 @@ python3 example.py
 
 # Working On S3 
 
-To run Delta Lake on S3, you'll need to make sure spark has the jars for talking with AWS
+To run Delta Lake on S3
 
-1. Make sure you've run the pyspark command to gather packages you'll need, this includes jars for talking to AWS
-```
-pyspark --packages io.delta:delta-core_2.12:0.7.0,com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.4
-```
-2. Make sure you have some AWS credentials by going to the IAM section of AWS Console, find your user name, create new keys.
-
-Our example ends up not being that different form the previous:
+1. Make sure you have some AWS credentials by going to the IAM section of AWS Console, find your user name, create new keys.
+2. Our example needs to be updated, they key differences are:
+* we now add AWS jar packages to our list of packages from maven
+* we now configure those jars with our AWS creds
+* we're telling our metastore to pay attention to S3 instead of our local file system
 
 ```PYTHON
 # This is an example pyspark app that does some simple
