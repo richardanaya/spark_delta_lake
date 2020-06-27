@@ -71,7 +71,7 @@ python3 example.py
 
 # Working On S3 
 
-To run Delta Lake on S3
+Let's try to run Delta Lake using S3 as the backing store for our parquet files and tables:
 
 1. Make sure you have some AWS credentials by going to the IAM section of AWS Console, find your user name, create new keys.
 2. Our example needs to be updated, they key differences are:
